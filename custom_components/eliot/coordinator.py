@@ -84,35 +84,13 @@ class EliotDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     
                     _LOGGER.debug("API Data received: %s", data)
 
-                    # Parse the new API structure
-                    device_info = data.get("device", {})
-                    measurements = data.get("data", [])
-
-                    result = {}
-
-                    # Extract device info
-                    result[SENSOR_TIMESTAMP] = device_info.get("last_activity")
-                    result[SENSOR_BATTERY] = device_info.get("battery_state")
-
-                    # Extract metrics
-                    for measure in measurements:
-                        metric = measure.get("metric")
-                        value = measure.get("value")
-                        
-                        try:
-                            metric_id = int(metric)
-                            if metric_id == 1:
-                                result[SENSOR_HIGH_RATE] = value
-                            elif metric_id == 2:
-                                result[SENSOR_LOW_RATE] = value
-                        except (ValueError, TypeError):
-                            continue
-
-                    # Validate we got at least some data
-                    if not result:
-                        raise UpdateFailed("No valid data found in API response")
-
-                    return result
+                    # Direct mapping from root keys as per actual API response
+                    return {
+                        SENSOR_HIGH_RATE: data.get("high_rate_kwh"),
+                        SENSOR_LOW_RATE: data.get("low_rate_kwh"),
+                        SENSOR_TIMESTAMP: data.get("timestamp"),
+                        SENSOR_BATTERY: data.get("battery_state"),
+                    }
 
         except aiohttp.ClientError as err:
             raise UpdateFailed(f"Error communicating with API: {err}") from err
