@@ -8,6 +8,7 @@ import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
+from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -68,16 +69,15 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Initialize the flow."""
         self._username = None
         self._password = None
-        self._devices = None
+        self._devices = []
 
     @staticmethod
+    @callback
     def async_get_options_flow(
         config_entry: config_entries.ConfigEntry,
     ) -> "OptionsFlowHandler":
         """Get the options flow for this handler."""
-        flow = OptionsFlowHandler()
-        flow.config_entry = config_entry
-        return flow
+        return OptionsFlowHandler(config_entry)
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -137,6 +137,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 },
             )
 
+        if not self._devices:
+            return self.async_abort(reason="no_devices_found")
+
         # Create device dict for selection
         devices_map = {}
         for d in self._devices:
@@ -146,7 +149,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             label_suffix = ""
             if last_activity:
                 try:
-                    dt = datetime.fromtimestamp(int(last_activity))
+                    dt = datetime.fromtimestamp(int(last_activity), tz=None)
                     label_suffix = f" ({dt.strftime('%Y-%m-%d %H:%M:%S')})"
                 except (ValueError, TypeError):
                     pass
@@ -166,6 +169,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
     """Handle options flow for ElioT."""
+
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize options flow."""
+        self.config_entry = config_entry
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
