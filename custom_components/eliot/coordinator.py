@@ -97,10 +97,14 @@ class EliotDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                         metric = measure.get("metric")
                         value = measure.get("value")
                         
-                        if metric == 1:
-                            result[SENSOR_HIGH_RATE] = value
-                        elif metric == 2:
-                            result[SENSOR_LOW_RATE] = value
+                        try:
+                            metric_id = int(metric)
+                            if metric_id == 1:
+                                result[SENSOR_HIGH_RATE] = value
+                            elif metric_id == 2:
+                                result[SENSOR_LOW_RATE] = value
+                        except (ValueError, TypeError):
+                            continue
 
                     # Validate we got at least some data
                     if not result:
