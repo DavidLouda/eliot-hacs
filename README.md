@@ -6,7 +6,7 @@ Custom integration for ElioT energy monitoring devices from VISIONQ.CZ.
 
 - GUI configuration through Home Assistant UI
 - Support for multiple ElioT devices
-- Automatic data updates every 15 minutes
+- Automatic data updates every 30 minutes (configurable from 15 minutes to 24 hours)
 - Energy sensors compatible with Home Assistant Energy Dashboard
 
 ## Sensors
@@ -49,11 +49,24 @@ All energy sensors use `state_class: total_increasing` for proper Energy Dashboa
 
 To add additional devices, repeat the process with different EUI values.
 
+### Changing Update Interval
+
+You can customize how often the integration fetches data:
+
+1. Go to Settings → Devices & Services
+2. Find the ElioT integration
+3. Click "Configure"
+4. Set the desired update interval (in minutes)
+   - **Minimum**: 15 minutes
+   - **Default**: 30 minutes
+   - **Maximum**: 1440 minutes (24 hours)
+
 ## API Details
 
 - **Endpoint**: https://app.visionq.cz/api/device_last_measurement.php
 - **Authentication**: HTTP Basic Auth
-- **Update Interval**: 900 seconds (15 minutes)
+- **Default Update Interval**: 30 minutes
+- **Configurable Range**: 15 minutes - 1440 minutes (24 hours)
 
 ## Troubleshooting
 
@@ -66,7 +79,7 @@ To add additional devices, repeat the process with different EUI values.
 - Verify the device exists in your VISIONQ.CZ account
 
 ### No Data
-- Wait up to 15 minutes for the first data fetch
+- Wait up to 30 minutes for the first data fetch (or your configured interval)
 - Check the device is reporting data to VISIONQ.CZ
 - Review Home Assistant logs for detailed error messages
 
