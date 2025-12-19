@@ -9,11 +9,6 @@ from homeassistant import config_entries
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.selector import (
-    SelectSelector,
-    SelectSelectorConfig,
-    SelectSelectorMode,
-)
 
 from .const import (
     API_DEVICES_ENDPOINT,
@@ -139,25 +134,17 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 },
             )
 
-        # Create device list for selector
-        # Only show devices that are not already configured? 
-        # For now, just show all. User will get an error if they try to add duplicate.
-        
-        device_options = [
-            {"label": f"{d.get('eui')} (Last activity: {d.get('last_activity', 'Unknown')})", "value": d.get("eui")}
+        # Create device dict for selection
+        devices_map = {
+            d.get("eui"): f"{d.get('eui')} (Last activity: {d.get('last_activity', 'Unknown')})"
             for d in self._devices
-        ]
+        }
 
         return self.async_show_form(
             step_id="device",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_EUI): SelectSelector(
-                        SelectSelectorConfig(
-                            options=device_options,
-                            mode=SelectSelectorMode.DROPDOWN,
-                        )
-                    ),
+                    vol.Required(CONF_EUI): vol.In(devices_map),
                 }
             ),
             errors=errors,

@@ -70,7 +70,7 @@ class EliotEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEnt
     _attr_device_class = SensorDeviceClass.ENERGY
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
-    _attr_has_entity_name = False
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -92,9 +92,12 @@ class EliotEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEnt
         self._attr_unique_id = f"{eui}_{sensor_key}"
 
         # Device info for grouping sensors
+        # We name the device generic "ElioT" so that the entity name (which includes EUI)
+        # becomes the primary identifier in the frontend.
+        # "ElioT High Rate (VT) 09..."
         self._attr_device_info = {
             "identifiers": {(DOMAIN, eui)},
-            "name": f"ElioT {eui}",
+            "name": "ElioT",
             "manufacturer": "VISIONQ.CZ",
             "model": "ElioT Energy Monitor",
         }
@@ -123,7 +126,7 @@ class EliotTotalEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sens
     _attr_device_class = SensorDeviceClass.ENERGY
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
-    _attr_has_entity_name = False
+    _attr_has_entity_name = True
     _attr_translation_key = SENSOR_TOTAL_KEY
 
     def __init__(
@@ -143,7 +146,7 @@ class EliotTotalEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sens
         # Device info for grouping sensors
         self._attr_device_info = {
             "identifiers": {(DOMAIN, eui)},
-            "name": f"ElioT {eui}",
+            "name": "ElioT",
             "manufacturer": "VISIONQ.CZ",
             "model": "ElioT Energy Monitor",
         }
@@ -167,7 +170,7 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
     """Representation of last activity timestamp."""
 
     _attr_device_class = SensorDeviceClass.TIMESTAMP
-    _attr_has_entity_name = False
+    _attr_has_entity_name = True
     _attr_translation_key = SENSOR_LAST_ACTIVITY_KEY
 
     def __init__(
@@ -187,7 +190,7 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
         # Device info for grouping sensors
         self._attr_device_info = {
             "identifiers": {(DOMAIN, eui)},
-            "name": f"ElioT {eui}",
+            "name": "ElioT",
             "manufacturer": "VISIONQ.CZ",
             "model": "ElioT Energy Monitor",
         }
@@ -214,7 +217,7 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
 class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEntity):
     """Representation of battery state."""
 
-    _attr_has_entity_name = False
+    _attr_has_entity_name = True
     _attr_translation_key = SENSOR_BATTERY_KEY
 
     def __init__(
@@ -234,7 +237,7 @@ class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEn
         # Device info for grouping sensors
         self._attr_device_info = {
             "identifiers": {(DOMAIN, eui)},
-            "name": f"ElioT {eui}",
+            "name": "ElioT",
             "manufacturer": "VISIONQ.CZ",
             "model": "ElioT Energy Monitor",
         }
