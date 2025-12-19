@@ -1,12 +1,12 @@
 {
   "domain": "eliot",
   "name": "ElioT Energy Monitor",
-  "codeowners": ["@yourusername"],
+  "codeowners": ["@DavidLouda"],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/yourusername/eliot-hacs",
+  "documentation": "https://github.com/DavidLouda/eliot-hacs",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/yourusername/eliot-hacs/issues",
+  "issue_tracker": "https://github.com/DavidLouda/eliot-hacs/issues",
   "requirements": [],
   "version": "1.0.0"
 }

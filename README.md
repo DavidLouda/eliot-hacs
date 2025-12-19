@@ -72,4 +72,4 @@ To add additional devices, repeat the process with different EUI values.
 
 ## Support
 
-Report issues at: [GitHub Issues](https://github.com/yourusername/eliot-hacs/issues)
+Report issues at: [GitHub Issues](https://github.com/DavidLouda/eliot-hacs/issues)
