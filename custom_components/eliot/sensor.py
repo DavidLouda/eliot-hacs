@@ -1,5 +1,5 @@
 """Sensor platform for ElioT integration."""
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 from typing import Any
 
@@ -199,8 +199,9 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
 
         if timestamp is not None:
             try:
-                # Convert Unix timestamp to datetime
-                return datetime.fromtimestamp(int(timestamp))
+                # Convert Unix timestamp to aware UTC datetime
+                val = datetime.fromtimestamp(int(timestamp), tz=timezone.utc)
+                return val
             except (ValueError, TypeError, OSError) as err:
                 _LOGGER.error("Invalid timestamp value: %s (%s)", timestamp, err)
                 return None
