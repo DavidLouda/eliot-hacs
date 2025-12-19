@@ -5,6 +5,12 @@ import logging
 import aiohttp
 import voluptuous as vol
 
+from datetime import datetime
+import logging
+
+import aiohttp
+import voluptuous as vol
+
 from homeassistant import config_entries
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.data_entry_flow import FlowResult
@@ -135,10 +141,20 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
 
         # Create device dict for selection
-        devices_map = {
-            d.get("eui"): f"{d.get('eui')} (Last activity: {d.get('last_activity', 'Unknown')})"
-            for d in self._devices
-        }
+        devices_map = {}
+        for d in self._devices:
+            eui = d.get("eui")
+            last_activity = d.get("last_activity")
+            
+            label_suffix = ""
+            if last_activity:
+                try:
+                    dt = datetime.fromtimestamp(int(last_activity))
+                    label_suffix = f" ({dt.strftime('%Y-%m-%d %H:%M:%S')})"
+                except (ValueError, TypeError):
+                    pass
+            
+            devices_map[eui] = f"{eui}{label_suffix}"
 
         return self.async_show_form(
             step_id="device",

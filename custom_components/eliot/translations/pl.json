@@ -42,24 +42,24 @@
       }
     }
   },
-    "entity": {
-      "sensor": {
-        "high_rate": {
-          "name": "Wysoka taryfa (VT) {eui}"
-        },
-        "low_rate": {
-          "name": "Niska taryfa (NT) {eui}"
-        },
-        "total": {
-          "name": "Razem {eui}"
-        },
-        "last_activity": {
-          "name": "Ostatnia aktywność {eui}"
-        },
-        "battery_state": {
-          "name": "Stan baterii {eui}"
+      "entity": {
+        "sensor": {
+          "high_rate": {
+            "name": "Wysoka taryfa (VT)"
+          },
+          "low_rate": {
+            "name": "Niska taryfa (NT)"
+          },
+          "total": {
+            "name": "Razem"
+          },
+          "last_activity": {
+            "name": "Ostatnia aktywność"
+          },
+          "battery_state": {
+            "name": "Stan baterii"
+          }
         }
       }
     }
-  }
-  
+    

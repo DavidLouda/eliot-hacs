@@ -42,24 +42,24 @@
       }
     }
   },
-    "entity": {
-      "sensor": {
-        "high_rate": {
-          "name": "Vysoká tarifa (VT) {eui}"
-        },
-        "low_rate": {
-          "name": "Nízka tarifa (NT) {eui}"
-        },
-        "total": {
-          "name": "Celkom {eui}"
-        },
-        "last_activity": {
-          "name": "Posledná aktivita {eui}"
-        },
-        "battery_state": {
-          "name": "Stav batérie {eui}"
+      "entity": {
+        "sensor": {
+          "high_rate": {
+            "name": "Vysoká tarifa (VT)"
+          },
+          "low_rate": {
+            "name": "Nízka tarifa (NT)"
+          },
+          "total": {
+            "name": "Celkom"
+          },
+          "last_activity": {
+            "name": "Posledná aktivita"
+          },
+          "battery_state": {
+            "name": "Stav batérie"
+          }
         }
       }
     }
-  }
-  
+    

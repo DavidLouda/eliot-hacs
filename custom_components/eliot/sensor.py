@@ -88,13 +88,9 @@ class EliotEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEnt
 
         # Entity attributes
         self._attr_translation_key = sensor_key
-        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{sensor_key}"
 
         # Device info for grouping sensors
-        # We name the device generic "ElioT" so that the entity name (which includes EUI)
-        # becomes the primary identifier in the frontend.
-        # "ElioT High Rate (VT) 09..."
         self._attr_device_info = {
             "identifiers": {(DOMAIN, eui)},
             "name": "ElioT",
@@ -140,7 +136,6 @@ class EliotTotalEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sens
         self._eui = eui
 
         # Entity attributes
-        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{SENSOR_TOTAL_KEY}"
 
         # Device info for grouping sensors
@@ -184,7 +179,6 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
         self._eui = eui
 
         # Entity attributes
-        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{SENSOR_LAST_ACTIVITY_KEY}"
 
         # Device info for grouping sensors
@@ -231,7 +225,6 @@ class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEn
         self._eui = eui
 
         # Entity attributes
-        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{SENSOR_BATTERY_KEY}"
 
         # Device info for grouping sensors
