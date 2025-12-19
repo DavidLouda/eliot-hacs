@@ -1,0 +1,44 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up ElioT Device",
+        "description": "Enter your VISIONQ.CZ credentials and device EUI",
+        "data": {
+          "username": "Username",
+          "password": "Password",
+          "eui": "Device EUI"
+        },
+        "data_description": {
+          "username": "Your VISIONQ.CZ account username",
+          "password": "Your VISIONQ.CZ account password",
+          "eui": "Device EUI (e.g., 0901288001068943)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to VISIONQ.CZ API",
+      "invalid_auth": "Invalid username or password",
+      "invalid_eui": "Invalid or unknown device EUI",
+      "invalid_response": "API returned unexpected response format",
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "Device with this EUI is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "ElioT Options",
+        "description": "Configure update interval for data polling",
+        "data": {
+          "scan_interval": "Update interval (minutes)"
+        },
+        "data_description": {
+          "scan_interval": "How often to fetch data from API (15-1440 minutes, default: 30)"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfiguracja urządzenia ElioT",
+        "description": "Wprowadź dane logowania do VISIONQ.CZ i EUI urządzenia",
+        "data": {
+          "username": "Nazwa użytkownika",
+          "password": "Hasło",
+          "eui": "EUI urządzenia"
+        },
+        "data_description": {
+          "username": "Twoja nazwa użytkownika konta VISIONQ.CZ",
+          "password": "Twoje hasło konta VISIONQ.CZ",
+          "eui": "EUI urządzenia (np. 0901288001068943)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nie udało się połączyć z API VISIONQ.CZ",
+      "invalid_auth": "Nieprawidłowa nazwa użytkownika lub hasło",
+      "invalid_eui": "Nieprawidłowe lub nieznane EUI urządzenia",
+      "invalid_response": "API zwróciło nieoczekiwany format odpowiedzi",
+      "unknown": "Wystąpił nieoczekiwany błąd"
+    },
+    "abort": {
+      "already_configured": "Urządzenie z tym EUI jest już skonfigurowane"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcje ElioT",
+        "description": "Konfiguracja interwału aktualizacji danych",
+        "data": {
+          "scan_interval": "Interwał aktualizacji (minuty)"
+        },
+        "data_description": {
+          "scan_interval": "Jak często pobierać dane z API (15-1440 minut, domyślnie: 30)"
+        }
+      }
+    }
+  }
+}
