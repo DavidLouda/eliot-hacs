@@ -81,6 +81,8 @@ class EliotDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                         )
 
                     data = await response.json()
+                    
+                    _LOGGER.debug("API Data received: %s", data)
 
                     # Parse the new API structure
                     device_info = data.get("device", {})
