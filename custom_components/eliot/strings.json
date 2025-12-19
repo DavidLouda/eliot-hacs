@@ -45,19 +45,19 @@
   "entity": {
     "sensor": {
       "high_rate": {
-        "name": "High Rate (VT)"
+        "name": "High Rate (VT) {eui}"
       },
       "low_rate": {
-        "name": "Low Rate (NT)"
+        "name": "Low Rate (NT) {eui}"
       },
       "total": {
-        "name": "Total"
+        "name": "Total {eui}"
       },
       "last_activity": {
-        "name": "Last Activity"
+        "name": "Last Activity {eui}"
       },
       "battery_state": {
-        "name": "Battery State"
+        "name": "Battery State {eui}"
       }
     }
   }

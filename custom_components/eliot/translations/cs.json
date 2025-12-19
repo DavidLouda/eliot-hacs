@@ -45,19 +45,19 @@
   "entity": {
     "sensor": {
       "high_rate": {
-        "name": "Vysoký tarif (VT)"
+        "name": "Vysoký tarif (VT) {eui}"
       },
       "low_rate": {
-        "name": "Nízký tarif (NT)"
+        "name": "Nízký tarif (NT) {eui}"
       },
       "total": {
-        "name": "Celkem"
+        "name": "Celkem {eui}"
       },
       "last_activity": {
-        "name": "Poslední aktivita"
+        "name": "Poslední aktivita {eui}"
       },
       "battery_state": {
-        "name": "Stav baterie"
+        "name": "Stav baterie {eui}"
       }
     }
   }

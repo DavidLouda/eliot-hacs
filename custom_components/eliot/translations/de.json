@@ -42,23 +42,24 @@
       }
     }
   },
-  "entity": {
-    "sensor": {
-      "high_rate": {
-        "name": "Hochtarif (HT)"
-      },
-      "low_rate": {
-        "name": "Niedertarif (NT)"
-      },
-      "total": {
-        "name": "Gesamt"
-      },
-      "last_activity": {
-        "name": "Letzte Aktivität"
-      },
-      "battery_state": {
-        "name": "Batteriestatus"
+    "entity": {
+      "sensor": {
+        "high_rate": {
+          "name": "Hochtarif (HT) {eui}"
+        },
+        "low_rate": {
+          "name": "Niedertarif (NT) {eui}"
+        },
+        "total": {
+          "name": "Gesamt {eui}"
+        },
+        "last_activity": {
+          "name": "Letzte Aktivität {eui}"
+        },
+        "battery_state": {
+          "name": "Batteriestatus {eui}"
+        }
       }
     }
   }
-}
+  

@@ -48,14 +48,12 @@ async def async_setup_entry(
             coordinator,
             eui,
             SENSOR_VT_KEY,
-            "High Rate (VT)",
             SENSOR_HIGH_RATE,
         ),
         EliotEnergySensor(
             coordinator,
             eui,
             SENSOR_NT_KEY,
-            "Low Rate (NT)",
             SENSOR_LOW_RATE,
         ),
         EliotTotalEnergySensor(coordinator, eui),
@@ -72,14 +70,13 @@ class EliotEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEnt
     _attr_device_class = SensorDeviceClass.ENERGY
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
 
     def __init__(
         self,
         coordinator: EliotDataUpdateCoordinator,
         eui: str,
         sensor_key: str,
-        default_name: str,
         api_key: str,
     ) -> None:
         """Initialize the sensor."""
@@ -91,14 +88,8 @@ class EliotEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEnt
 
         # Entity attributes
         self._attr_translation_key = sensor_key
+        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{sensor_key}"
-        # Name format: [Translation] [EUI]
-        # We rely on HA's translation system for the first part, but to enforce specific order with EUI
-        # we might need to override 'name'. However, if we set has_entity_name=True, HA prepends device name.
-        # If Device Name is "ElioT [EUI]", then entity name "High Rate" becomes "ElioT [EUI] High Rate".
-        # The user wants "High Rate (VT) [EUI]".
-        # So we should probably set the name explicitly.
-        self._attr_name = f"{default_name} {eui}"
 
         # Device info for grouping sensors
         self._attr_device_info = {
@@ -132,7 +123,7 @@ class EliotTotalEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sens
     _attr_device_class = SensorDeviceClass.ENERGY
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
     _attr_translation_key = SENSOR_TOTAL_KEY
 
     def __init__(
@@ -146,7 +137,7 @@ class EliotTotalEnergySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sens
         self._eui = eui
 
         # Entity attributes
-        self._attr_name = f"Total {eui}"
+        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{SENSOR_TOTAL_KEY}"
 
         # Device info for grouping sensors
@@ -176,7 +167,7 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
     """Representation of last activity timestamp."""
 
     _attr_device_class = SensorDeviceClass.TIMESTAMP
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
     _attr_translation_key = SENSOR_LAST_ACTIVITY_KEY
 
     def __init__(
@@ -190,7 +181,7 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
         self._eui = eui
 
         # Entity attributes
-        self._attr_name = f"Last Activity {eui}"
+        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{SENSOR_LAST_ACTIVITY_KEY}"
 
         # Device info for grouping sensors
@@ -223,7 +214,7 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
 class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEntity):
     """Representation of battery state."""
 
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
     _attr_translation_key = SENSOR_BATTERY_KEY
 
     def __init__(
@@ -237,7 +228,7 @@ class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEn
         self._eui = eui
 
         # Entity attributes
-        self._attr_name = f"Battery {eui}"
+        self._attr_translation_placeholders = {"eui": eui}
         self._attr_unique_id = f"{eui}_{SENSOR_BATTERY_KEY}"
 
         # Device info for grouping sensors

@@ -42,23 +42,24 @@
       }
     }
   },
-  "entity": {
-    "sensor": {
-      "high_rate": {
-        "name": "Високий тариф (VT)"
-      },
-      "low_rate": {
-        "name": "Низький тариф (NT)"
-      },
-      "total": {
-        "name": "Всього"
-      },
-      "last_activity": {
-        "name": "Остання активність"
-      },
-      "battery_state": {
-        "name": "Стан батареї"
+    "entity": {
+      "sensor": {
+        "high_rate": {
+          "name": "Високий тариф (VT) {eui}"
+        },
+        "low_rate": {
+          "name": "Низький тариф (NT) {eui}"
+        },
+        "total": {
+          "name": "Всього {eui}"
+        },
+        "last_activity": {
+          "name": "Остання активність {eui}"
+        },
+        "battery_state": {
+          "name": "Стан батареї {eui}"
+        }
       }
     }
   }
-}
+  
