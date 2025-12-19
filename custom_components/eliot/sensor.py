@@ -211,6 +211,9 @@ class EliotLastActivitySensor(CoordinatorEntity[EliotDataUpdateCoordinator], Sen
 class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEntity):
     """Representation of battery state."""
 
+    _attr_device_class = SensorDeviceClass.BATTERY
+    _attr_native_unit_of_measurement = PERCENTAGE
+    _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_has_entity_name = True
     _attr_translation_key = SENSOR_BATTERY_KEY
 
@@ -237,7 +240,7 @@ class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEn
 
     @property
     def native_value(self) -> int | None:
-        """Return the battery state."""
+        """Return the battery state as percentage."""
         if self.coordinator.data is None:
             return None
 
@@ -248,8 +251,12 @@ class EliotBatterySensor(CoordinatorEntity[EliotDataUpdateCoordinator], SensorEn
             
         try:
             int_val = int(value)
-            if int_val == 255:
+            # 255 = unknown or powered from socket
+            # 254 = 100%
+            if int_val >= 255:
                 return None
-            return int_val
+            
+            # Convert 0-254 scale to 0-100%
+            return round((int_val / 254.0) * 100)
         except (ValueError, TypeError):
             return None

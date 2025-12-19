@@ -53,9 +53,10 @@
           "total": {
             "name": "Celkom"
           },
-          "last_activity": {
-            "name": "Posledná aktivita"
-          },
+                "last_activity": {
+                  "name": "Čas odpočtu"
+                },
+          
           "battery_state": {
             "name": "Stav batérie"
           }

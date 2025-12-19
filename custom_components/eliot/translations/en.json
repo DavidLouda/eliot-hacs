@@ -53,9 +53,10 @@
           "total": {
             "name": "Total"
           },
-          "last_activity": {
-            "name": "Last Activity"
-          },
+                "last_activity": {
+                  "name": "Reading Time"
+                },
+          
           "battery_state": {
             "name": "Battery State"
           }

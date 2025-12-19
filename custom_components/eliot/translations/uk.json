@@ -53,9 +53,10 @@
           "total": {
             "name": "Всього"
           },
-          "last_activity": {
-            "name": "Остання активність"
-          },
+                "last_activity": {
+                  "name": "Час зчитування"
+                },
+          
           "battery_state": {
             "name": "Стан батареї"
           }

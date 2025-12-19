@@ -53,9 +53,10 @@
           "total": {
             "name": "Razem"
           },
-          "last_activity": {
-            "name": "Ostatnia aktywność"
-          },
+                "last_activity": {
+                  "name": "Czas odczytu"
+                },
+          
           "battery_state": {
             "name": "Stan baterii"
           }
