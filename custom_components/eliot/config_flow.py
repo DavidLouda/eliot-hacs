@@ -60,6 +60,69 @@ async def validate_credentials(hass, username, password) -> list[dict[str, Any]]
         raise CannotConnect(f"Connection error: {err}") from err
 
 
+"""Config flow for ElioT integration."""
+from datetime import datetime
+from typing import Any
+import logging
+
+import aiohttp
+import voluptuous as vol
+
+from homeassistant import config_entries
+from homeassistant.config_entries import ConfigEntry, OptionsFlowWithConfigEntry
+from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
+from homeassistant.core import callback
+from homeassistant.data_entry_flow import FlowResult
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
+
+from .const import (
+    API_DEVICES_ENDPOINT,
+    CONF_EUI,
+    CONF_SCAN_INTERVAL,
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+    MAX_SCAN_INTERVAL,
+    MIN_SCAN_INTERVAL,
+)
+
+_LOGGER = logging.getLogger(__name__)
+
+STEP_USER_DATA_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_USERNAME): str,
+        vol.Required(CONF_PASSWORD): str,
+    }
+)
+
+
+async def validate_credentials(hass, username, password) -> list[dict[str, Any]]:
+    """Validate credentials and return list of devices."""
+    auth = aiohttp.BasicAuth(username, password)
+    session = async_get_clientsession(hass)
+
+    try:
+        async with session.get(
+            API_DEVICES_ENDPOINT,
+            auth=auth,
+            timeout=aiohttp.ClientTimeout(total=10),
+        ) as response:
+            if response.status == 401:
+                raise InvalidAuth
+
+            if response.status != 200:
+                raise CannotConnect(f"HTTP {response.status}")
+
+            data = await response.json()
+            
+            if "devices" not in data:
+                raise InvalidResponse
+                
+            return data["devices"]
+
+    except aiohttp.ClientError as err:
+        raise CannotConnect(f"Connection error: {err}") from err
+
+
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for ElioT."""
 
@@ -74,7 +137,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @staticmethod
     @callback
     def async_get_options_flow(
-        config_entry: config_entries.ConfigEntry,
+        config_entry: ConfigEntry,
     ) -> "OptionsFlowHandler":
         """Get the options flow for this handler."""
         return OptionsFlowHandler(config_entry)
@@ -167,16 +230,61 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
 
-class OptionsFlowHandler(config_entries.OptionsFlow):
+class OptionsFlowHandler(OptionsFlowWithConfigEntry):
     """Handle options flow for ElioT."""
 
-    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+    def __init__(self, config_entry: ConfigEntry) -> None:
         """Initialize options flow."""
-        self.config_entry = config_entry
+        super().__init__(config_entry)
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            # Convert minutes to seconds before saving
+            interval_minutes = user_input[CONF_SCAN_INTERVAL]
+            interval_seconds = interval_minutes * 60
+            return self.async_create_entry(
+                title="",
+                data={CONF_SCAN_INTERVAL: interval_seconds}
+            )
+
+        # Get current interval in seconds, convert to minutes for display
+        current_interval_seconds = self.config_entry.options.get(
+            CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL
+        )
+        current_interval_minutes = current_interval_seconds // 60
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional(
+                        CONF_SCAN_INTERVAL,
+                        default=current_interval_minutes,
+                    ): vol.All(
+                        vol.Coerce(int),
+                        vol.Range(
+                            min=MIN_SCAN_INTERVAL // 60,
+                            max=MAX_SCAN_INTERVAL // 60
+                        ),
+                    ),
+                }
+            ),
+        )
+
+
+class CannotConnect(Exception):
+    """Error to indicate we cannot connect."""
+
+
+class InvalidAuth(Exception):
+    """Error to indicate authentication failure."""
+
+
+class InvalidResponse(Exception):
+    """Error to indicate invalid API response."""
         """Manage the options."""
         if user_input is not None:
             # Convert minutes to seconds before saving
