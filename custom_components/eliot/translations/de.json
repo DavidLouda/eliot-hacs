@@ -2,25 +2,26 @@
   "config": {
     "step": {
       "user": {
-        "title": "ElioT-Gerät einrichten",
-        "description": "Geben Sie Ihre VISIONQ.CZ-Anmeldedaten und die Geräte-EUI ein",
+        "title": "Anmeldung bei VISIONQ.CZ",
+        "description": "Geben Sie Ihre Zugangsdaten ein.",
         "data": {
           "username": "Benutzername",
-          "password": "Passwort",
-          "eui": "Geräte-EUI"
-        },
-        "data_description": {
-          "username": "Ihr VISIONQ.CZ-Benutzername",
-          "password": "Ihr VISIONQ.CZ-Passwort",
-          "eui": "Geräte-EUI (z.B. 0901288001068943)"
+          "password": "Passwort"
+        }
+      },
+      "device": {
+        "title": "Gerät auswählen",
+        "description": "Wählen Sie ein Gerät aus der Liste.",
+        "data": {
+          "eui": "Gerät"
         }
       }
     },
     "error": {
       "cannot_connect": "Verbindung zur VISIONQ.CZ-API fehlgeschlagen",
       "invalid_auth": "Ungültiger Benutzername oder Passwort",
-      "invalid_eui": "Ungültige oder unbekannte Geräte-EUI",
       "invalid_response": "API hat unerwartetes Antwortformat zurückgegeben",
+      "no_devices_found": "Keine Geräte auf diesem Konto gefunden",
       "unknown": "Unerwarteter Fehler aufgetreten"
     },
     "abort": {
@@ -38,6 +39,25 @@
         "data_description": {
           "scan_interval": "Wie oft Daten von der API abgerufen werden (15-1440 Minuten, Standard: 30)"
         }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "high_rate": {
+        "name": "Hochtarif (HT)"
+      },
+      "low_rate": {
+        "name": "Niedertarif (NT)"
+      },
+      "total": {
+        "name": "Gesamt"
+      },
+      "last_activity": {
+        "name": "Letzte Aktivität"
+      },
+      "battery_state": {
+        "name": "Batteriestatus"
       }
     }
   }

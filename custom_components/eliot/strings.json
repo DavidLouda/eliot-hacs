@@ -2,25 +2,26 @@
   "config": {
     "step": {
       "user": {
-        "title": "Set up ElioT Device",
-        "description": "Enter your VISIONQ.CZ credentials and device EUI",
+        "title": "Login to VISIONQ.CZ",
+        "description": "Enter your credentials.",
         "data": {
           "username": "Username",
-          "password": "Password",
-          "eui": "Device EUI"
-        },
-        "data_description": {
-          "username": "Your VISIONQ.CZ account username",
-          "password": "Your VISIONQ.CZ account password",
-          "eui": "Device EUI (e.g., 0901288001068943)"
+          "password": "Password"
+        }
+      },
+      "device": {
+        "title": "Select Device",
+        "description": "Choose a device from the list.",
+        "data": {
+          "eui": "Device"
         }
       }
     },
     "error": {
       "cannot_connect": "Failed to connect to VISIONQ.CZ API",
       "invalid_auth": "Invalid username or password",
-      "invalid_eui": "Invalid or unknown device EUI",
       "invalid_response": "API returned unexpected response format",
+      "no_devices_found": "No devices found on this account",
       "unknown": "Unexpected error occurred"
     },
     "abort": {
@@ -38,6 +39,25 @@
         "data_description": {
           "scan_interval": "How often to fetch data from API (15-1440 minutes, default: 30)"
         }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "high_rate": {
+        "name": "High Rate (VT)"
+      },
+      "low_rate": {
+        "name": "Low Rate (NT)"
+      },
+      "total": {
+        "name": "Total"
+      },
+      "last_activity": {
+        "name": "Last Activity"
+      },
+      "battery_state": {
+        "name": "Battery State"
       }
     }
   }

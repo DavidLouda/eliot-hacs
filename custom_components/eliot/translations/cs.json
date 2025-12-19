@@ -2,29 +2,30 @@
   "config": {
     "step": {
       "user": {
-        "title": "Nastavení ElioT zařízení",
-        "description": "Zadejte přihlašovací údaje k VISIONQ.CZ a EUI zařízení",
+        "title": "Přihlášení k VISIONQ.CZ",
+        "description": "Zadejte své přihlašovací údaje.",
         "data": {
           "username": "Uživatelské jméno",
-          "password": "Heslo",
-          "eui": "EUI zařízení"
-        },
-        "data_description": {
-          "username": "Vaše uživatelské jméno k účtu VISIONQ.CZ",
-          "password": "Vaše heslo k účtu VISIONQ.CZ",
-          "eui": "EUI zařízení (např. 0901288001068943)"
+          "password": "Heslo"
+        }
+      },
+      "device": {
+        "title": "Výběr zařízení",
+        "description": "Vyberte zařízení ze seznamu.",
+        "data": {
+          "eui": "Zařízení"
         }
       }
     },
     "error": {
       "cannot_connect": "Nepodařilo se připojit k API VISIONQ.CZ",
       "invalid_auth": "Neplatné uživatelské jméno nebo heslo",
-      "invalid_eui": "Neplatné nebo neznámé EUI zařízení",
       "invalid_response": "API vrátilo neočekávaný formát odpovědi",
+      "no_devices_found": "Na účtu nebyla nalezena žádná zařízení",
       "unknown": "Došlo k neočekávané chybě"
     },
     "abort": {
-      "already_configured": "Zařízení s tímto EUI je již nakonfigurováno"
+      "already_configured": "Toto zařízení je již nakonfigurováno"
     }
   },
   "options": {
@@ -38,6 +39,25 @@
         "data_description": {
           "scan_interval": "Jak často stahovat data z API (15-1440 minut, výchozí: 30)"
         }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "high_rate": {
+        "name": "Vysoký tarif (VT)"
+      },
+      "low_rate": {
+        "name": "Nízký tarif (NT)"
+      },
+      "total": {
+        "name": "Celkem"
+      },
+      "last_activity": {
+        "name": "Poslední aktivita"
+      },
+      "battery_state": {
+        "name": "Stav baterie"
       }
     }
   }

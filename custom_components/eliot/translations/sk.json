@@ -2,29 +2,30 @@
   "config": {
     "step": {
       "user": {
-        "title": "Nastavenie ElioT zariadenia",
-        "description": "Zadajte prihlasovacie údaje k VISIONQ.CZ a EUI zariadenia",
+        "title": "Prihlásenie k VISIONQ.CZ",
+        "description": "Zadajte svoje prihlasovacie údaje.",
         "data": {
           "username": "Používateľské meno",
-          "password": "Heslo",
-          "eui": "EUI zariadenia"
-        },
-        "data_description": {
-          "username": "Vaše používateľské meno k účtu VISIONQ.CZ",
-          "password": "Vaše heslo k účtu VISIONQ.CZ",
-          "eui": "EUI zariadenia (napr. 0901288001068943)"
+          "password": "Heslo"
+        }
+      },
+      "device": {
+        "title": "Výber zariadenia",
+        "description": "Vyberte zariadenie zo zoznamu.",
+        "data": {
+          "eui": "Zariadenie"
         }
       }
     },
     "error": {
       "cannot_connect": "Nepodarilo sa pripojiť k API VISIONQ.CZ",
       "invalid_auth": "Neplatné používateľské meno alebo heslo",
-      "invalid_eui": "Neplatné alebo neznáme EUI zariadenia",
       "invalid_response": "API vrátilo neočakávaný formát odpovede",
+      "no_devices_found": "Na účte neboli nájdené žiadne zariadenia",
       "unknown": "Došlo k neočakávanej chybe"
     },
     "abort": {
-      "already_configured": "Zariadenie s týmto EUI je už nakonfigurované"
+      "already_configured": "Toto zariadenie je už nakonfigurované"
     }
   },
   "options": {
@@ -38,6 +39,25 @@
         "data_description": {
           "scan_interval": "Ako často sťahovať dáta z API (15-1440 minút, predvolené: 30)"
         }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "high_rate": {
+        "name": "Vysoká tarifa (VT)"
+      },
+      "low_rate": {
+        "name": "Nízka tarifa (NT)"
+      },
+      "total": {
+        "name": "Celkom"
+      },
+      "last_activity": {
+        "name": "Posledná aktivita"
+      },
+      "battery_state": {
+        "name": "Stav batérie"
       }
     }
   }
