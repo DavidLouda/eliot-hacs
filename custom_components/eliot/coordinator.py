@@ -81,8 +81,6 @@ class EliotDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                         )
 
                     data = await response.json()
-                    
-                    _LOGGER.debug("API Data received: %s", data)
 
                     # Direct mapping from root keys as per actual API response
                     return {
