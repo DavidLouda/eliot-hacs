@@ -15,6 +15,14 @@
         "data": {
           "eui": "Device"
         }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate VISIONQ.CZ",
+        "description": "The credentials for device {eui} are no longer valid. Enter your current VISIONQ.CZ credentials.",
+        "data": {
+          "username": "Username",
+          "password": "Password"
+        }
       }
     },
     "error": {
@@ -22,22 +30,29 @@
       "invalid_auth": "Invalid username or password",
       "invalid_response": "API returned unexpected response format",
       "no_devices_found": "No devices found on this account",
-      "unknown": "Unexpected error occurred"
+      "unknown": "Unexpected error occurred",
+      "device_not_found": "This account does not have the configured device"
     },
     "abort": {
-      "already_configured": "Device with this EUI is already configured"
+      "already_configured": "Device with this EUI is already configured",
+      "no_devices_found": "No devices found on this account",
+      "reauth_successful": "Re-authentication was successful"
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "ElioT Options",
-        "description": "Configure update interval for data polling",
+        "description": "Update interval and battery estimate parameters",
         "data": {
-          "scan_interval": "Update interval (minutes)"
+          "scan_interval": "Update interval (minutes)",
+          "battery_message_budget": "Battery life (number of messages)",
+          "battery_capacity_mah": "Battery capacity (mAh)"
         },
         "data_description": {
-          "scan_interval": "How often to fetch data from API (15-1440 minutes, default: 30)"
+          "scan_interval": "How often to fetch data from API (15-1440 minutes, default: 30)",
+          "battery_message_budget": "Used for the battery estimate on devices without a coulomb counter (ElioT CLASSIC): remaining = 100 % − messages sent / this value. Default 80000 matches the VISIONQ.CZ portal.",
+          "battery_capacity_mah": "Used for the battery estimate on devices with a coulomb counter (ElioT PRO). Default 2600 mAh (Saft LS 14500)."
         }
       }
     }
@@ -58,6 +73,33 @@
       },
       "battery_state": {
         "name": "Battery State"
+      },
+      "battery_estimate": {
+        "name": "Battery estimate"
+      },
+      "consumed_charge": {
+        "name": "Consumed battery charge"
+      },
+      "messages_sent": {
+        "name": "Messages sent"
+      },
+      "signal_rsrp": {
+        "name": "Signal strength (RSRP)"
+      },
+      "signal_rssi": {
+        "name": "Signal strength (RSSI)"
+      },
+      "signal_snr": {
+        "name": "Signal-to-noise ratio"
+      },
+      "coverage_level": {
+        "name": "Coverage enhancement level"
+      },
+      "tx_power": {
+        "name": "Transmit power"
+      },
+      "subscription_expires": {
+        "name": "Subscription expires"
       }
     }
   }

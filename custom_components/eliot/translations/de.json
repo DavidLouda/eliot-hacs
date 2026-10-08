@@ -15,6 +15,14 @@
         "data": {
           "eui": "Gerät"
         }
+      },
+      "reauth_confirm": {
+        "title": "Erneut bei VISIONQ.CZ anmelden",
+        "description": "Die Zugangsdaten für das Gerät {eui} sind nicht mehr gültig. Geben Sie Ihre aktuellen VISIONQ.CZ-Zugangsdaten ein.",
+        "data": {
+          "username": "Benutzername",
+          "password": "Passwort"
+        }
       }
     },
     "error": {
@@ -22,45 +30,77 @@
       "invalid_auth": "Ungültiger Benutzername oder Passwort",
       "invalid_response": "API hat unerwartetes Antwortformat zurückgegeben",
       "no_devices_found": "Keine Geräte auf diesem Konto gefunden",
-      "unknown": "Unerwarteter Fehler aufgetreten"
+      "unknown": "Unerwarteter Fehler aufgetreten",
+      "device_not_found": "Dieses Konto enthält das konfigurierte Gerät nicht"
     },
     "abort": {
-      "already_configured": "Gerät mit dieser EUI ist bereits konfiguriert"
+      "already_configured": "Gerät mit dieser EUI ist bereits konfiguriert",
+      "no_devices_found": "Keine Geräte auf diesem Konto gefunden",
+      "reauth_successful": "Die erneute Anmeldung war erfolgreich"
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "ElioT-Optionen",
-        "description": "Aktualisierungsintervall für Datenabfrage konfigurieren",
+        "description": "Aktualisierungsintervall und Parameter der Batterieschätzung",
         "data": {
-          "scan_interval": "Aktualisierungsintervall (Minuten)"
+          "scan_interval": "Aktualisierungsintervall (Minuten)",
+          "battery_message_budget": "Batterielebensdauer (Anzahl Nachrichten)",
+          "battery_capacity_mah": "Batteriekapazität (mAh)"
         },
         "data_description": {
-          "scan_interval": "Wie oft Daten von der API abgerufen werden (15-1440 Minuten, Standard: 30)"
+          "scan_interval": "Wie oft Daten von der API abgerufen werden (15-1440 Minuten, Standard: 30)",
+          "battery_message_budget": "Für die Batterieschätzung bei Geräten ohne Coulomb-Zähler (ElioT CLASSIC): verbleibend = 100 % − gesendete Nachrichten / dieser Wert. Der Standardwert 80000 entspricht dem VISIONQ.CZ-Portal.",
+          "battery_capacity_mah": "Für die Batterieschätzung bei Geräten mit Coulomb-Zähler (ElioT PRO). Standard 2600 mAh (Saft LS 14500)."
         }
       }
     }
   },
-      "entity": {
-        "sensor": {
-          "high_rate": {
-            "name": "Hochtarif (HT)"
-          },
-          "low_rate": {
-            "name": "Niedertarif (NT)"
-          },
-          "total": {
-            "name": "Gesamt"
-          },
-                "last_activity": {
-                  "name": "Ablesezeitpunkt"
-                },
-          
-          "battery_state": {
-            "name": "Batteriestatus"
-          }
-        }
+  "entity": {
+    "sensor": {
+      "high_rate": {
+        "name": "Hochtarif (HT)"
+      },
+      "low_rate": {
+        "name": "Niedertarif (NT)"
+      },
+      "total": {
+        "name": "Gesamt"
+      },
+      "last_activity": {
+        "name": "Ablesezeitpunkt"
+      },
+      "battery_state": {
+        "name": "Batteriestatus"
+      },
+      "battery_estimate": {
+        "name": "Batterieschätzung"
+      },
+      "consumed_charge": {
+        "name": "Verbrauchte Batterieladung"
+      },
+      "messages_sent": {
+        "name": "Gesendete Nachrichten"
+      },
+      "signal_rsrp": {
+        "name": "Signalstärke (RSRP)"
+      },
+      "signal_rssi": {
+        "name": "Signalstärke (RSSI)"
+      },
+      "signal_snr": {
+        "name": "Signal-Rausch-Verhältnis"
+      },
+      "coverage_level": {
+        "name": "Abdeckungsstufe (ECL)"
+      },
+      "tx_power": {
+        "name": "Sendeleistung"
+      },
+      "subscription_expires": {
+        "name": "Abonnement läuft ab"
       }
     }
-    
+  }
+}

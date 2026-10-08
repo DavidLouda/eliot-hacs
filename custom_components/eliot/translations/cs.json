@@ -15,6 +15,14 @@
         "data": {
           "eui": "Zařízení"
         }
+      },
+      "reauth_confirm": {
+        "title": "Znovu přihlásit k VISIONQ.CZ",
+        "description": "Přihlašovací údaje pro zařízení {eui} již nejsou platné. Zadejte aktuální přihlašovací údaje k VISIONQ.CZ.",
+        "data": {
+          "username": "Uživatelské jméno",
+          "password": "Heslo"
+        }
       }
     },
     "error": {
@@ -22,22 +30,29 @@
       "invalid_auth": "Neplatné uživatelské jméno nebo heslo",
       "invalid_response": "API vrátilo neočekávaný formát odpovědi",
       "no_devices_found": "Na účtu nebyla nalezena žádná zařízení",
-      "unknown": "Došlo k neočekávané chybě"
+      "unknown": "Došlo k neočekávané chybě",
+      "device_not_found": "Na tomto účtu není nakonfigurované zařízení"
     },
     "abort": {
-      "already_configured": "Toto zařízení je již nakonfigurováno"
+      "already_configured": "Toto zařízení je již nakonfigurováno",
+      "no_devices_found": "Na účtu nebyla nalezena žádná zařízení",
+      "reauth_successful": "Opětovné přihlášení proběhlo úspěšně"
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Nastavení ElioT",
-        "description": "Konfigurace intervalu aktualizace dat",
+        "description": "Interval aktualizace a parametry odhadu baterie",
         "data": {
-          "scan_interval": "Interval aktualizace (minuty)"
+          "scan_interval": "Interval aktualizace (minuty)",
+          "battery_message_budget": "Výdrž baterie (počet zpráv)",
+          "battery_capacity_mah": "Kapacita baterie (mAh)"
         },
         "data_description": {
-          "scan_interval": "Jak často stahovat data z API (15-1440 minut, výchozí: 30)"
+          "scan_interval": "Jak často stahovat data z API (15-1440 minut, výchozí: 30)",
+          "battery_message_budget": "Pro odhad baterie u zařízení bez čítače náboje (ElioT CLASSIC): zbývá = 100 % − odeslané zprávy / tato hodnota. Výchozí 80000 odpovídá portálu VISIONQ.CZ.",
+          "battery_capacity_mah": "Pro odhad baterie u zařízení s čítačem náboje (ElioT PRO). Výchozí 2600 mAh (Saft LS 14500)."
         }
       }
     }
@@ -58,6 +73,33 @@
       },
       "battery_state": {
         "name": "Stav baterie"
+      },
+      "battery_estimate": {
+        "name": "Odhad baterie"
+      },
+      "consumed_charge": {
+        "name": "Spotřebovaný náboj baterie"
+      },
+      "messages_sent": {
+        "name": "Odeslané zprávy"
+      },
+      "signal_rsrp": {
+        "name": "Síla signálu (RSRP)"
+      },
+      "signal_rssi": {
+        "name": "Síla signálu (RSSI)"
+      },
+      "signal_snr": {
+        "name": "Odstup signálu od šumu"
+      },
+      "coverage_level": {
+        "name": "Úroveň pokrytí (ECL)"
+      },
+      "tx_power": {
+        "name": "Vysílací výkon"
+      },
+      "subscription_expires": {
+        "name": "Konec předplatného"
       }
     }
   }

@@ -1,0 +1,23 @@
+{
+  "version": 1.0,
+  "devices": [
+    {
+      "eui": "0000000000000001",
+      "rssi": null,
+      "snr": 248,
+      "rsrp": -805,
+      "ecl": 0,
+      "tx_power": 80,
+      "tx_time": 58598,
+      "rx_time": 45434,
+      "lat": null,
+      "lon": null,
+      "last_activity": 1791460586,
+      "error": null,
+      "expires": 1796218654,
+      "coulomb_counter_lsb_mah": null,
+      "coulomb_counter": null,
+      "battery_state": 254
+    }
+  ]
+}

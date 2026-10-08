@@ -13,17 +13,43 @@ Vlastní integrace (custom integration) pro zařízení na monitorování energi
 - Podpora pro více zařízení ElioT
 - Automatická aktualizace dat každých 30 minut (konfigurovatelné od 15 minut do 24 hodin)
 - Senzory energie kompatibilní s Energetickým panelem (Energy Dashboard) v Home Assistant
+- Stav a odhad baterie, síla signálu a konec předplatného
+- Opětovné přihlášení po změně hesla bez nutnosti integraci mazat
+- Stažení diagnostiky pro snadné hlášení chyb
 
 ## Senzory
 
-Každé zařízení poskytuje 4 senzory:
+| Senzor | Popis |
+|---|---|
+| **Vysoký tarif (VT)** | Spotřeba energie ve vysokém tarifu v kWh |
+| **Nízký tarif (NT)** | Spotřeba energie v nízkém tarifu v kWh |
+| **Celkem** | Kombinovaná spotřeba energie (VT + NT) v kWh |
+| **Čas odečtu** | Čas posledního měření zařízení |
+| **Stav baterie** | Stav baterie hlášený zařízením (viz [Baterie](#baterie)) |
+| **Odhad baterie** | Odhad zbývající kapacity baterie (viz [Baterie](#baterie)) |
+| **Odeslané zprávy** | Počet zpráv odeslaných zařízením *(diagnostický)* |
+| **Síla signálu (RSRP / RSSI)** | Síla signálu NB-IoT (RSRP) nebo LoRaWAN (RSSI) v dBm *(diagnostický)* |
+| **Konec předplatného** | Datum vypršení datové služby *(diagnostický)* |
+| **Spotřebovaný náboj baterie** | Jen ElioT PRO s čítačem náboje, v mAh *(diagnostický)* |
+| **Odstup signálu od šumu, Úroveň pokrytí (ECL), Vysílací výkon** | Podrobnosti o rádiovém spojení *(diagnostické, ve výchozím stavu vypnuté)* |
 
-1. **Vysoký tarif (VT)** - Spotřeba energie ve vysokém tarifu v kWh
-2. **Nízký tarif (NT)** - Spotřeba energie v nízkém tarifu v kWh
-3. **Celkem** - Kombinovaná spotřeba energie (VT + NT) v kWh
-4. **Poslední aktivita** - Časové razítko poslední aktivity zařízení
+Senzory se vytvoří jen tehdy, když je API pro dané zařízení vrací (např. RSSI jen u LoRaWAN, čítač náboje jen u PRO).
 
 Všechny energetické senzory používají `state_class: total_increasing` pro správnou integraci do Energetického panelu.
+
+### Baterie
+
+API VISIONQ.CZ posílá stav baterie jako číslo 0–255 (`battery_state`):
+
+- **1–254** se přepočítá na 0–100 % (254 = 100 %),
+- **0** (externí napájení / neměřeno) a **255** (neznámý stav) se zobrazí jako *neznámý*.
+
+**ElioT CLASSIC nemá obvod pro měření baterie**, takže hlásí 254 (100 %) prakticky po celou dobu životnosti baterie. Procenta na portálu VISIONQ.CZ jsou odhad, který API neposkytuje. Proto integrace nabízí senzor **Odhad baterie**:
+
+- **Zařízení s čítačem náboje (ElioT PRO):** `100 % − spotřebovaný náboj / kapacita baterie` (výchozí kapacita 2600 mAh),
+- **ostatní zařízení:** `100 % − odeslané zprávy / výdrž baterie` (výchozí výdrž 80 000 zpráv odpovídá odhadu portálu).
+
+Pokud se odhad liší od portálu, upravte **Výdrž baterie (počet zpráv)** nebo **Kapacitu baterie** v nastavení integrace.
 
 ## Instalace
 
@@ -52,21 +78,23 @@ Všechny energetické senzory používají `state_class: total_increasing` pro s
 
 Pro přidání dalších zařízení (pokud jich máte více) opakujte proces znovu.
 
-### Změna intervalu aktualizace
-
-Můžete si přizpůsobit, jak často integrace stahuje data:
+### Nastavení integrace
 
 1. Přejděte do Nastavení → Zařízení a služby
 2. Najděte integraci ElioT
 3. Klikněte na "Konfigurovat"
-4. Nastavte požadovaný interval aktualizace (v minutách)
-   - **Minimum**: 15 minut
-   - **Výchozí**: 30 minut
-   - **Maximum**: 1440 minut (24 hodin)
+4. Upravte:
+   - **Interval aktualizace (minuty)**: minimum 15, výchozí 30, maximum 1440 (24 hodin)
+   - **Výdrž baterie (počet zpráv)**: pro odhad baterie u zařízení bez čítače náboje (výchozí 80 000)
+   - **Kapacita baterie (mAh)**: pro odhad baterie u zařízení s čítačem náboje (výchozí 2600)
+
+### Změna hesla
+
+Pokud změníte heslo k VISIONQ.CZ, Home Assistant zobrazí výzvu k opětovnému přihlášení. Stačí zadat nové údaje, integraci není třeba mazat.
 
 ## Podrobnosti o API
 
-- **Endpoint**: https://app.visionq.cz/api/device_last_measurement.php
+- **Endpointy**: https://app.visionq.cz/api/device_last_measurement.php (měření), https://app.visionq.cz/api/account_devices.php (seznam zařízení, signál, předplatné)
 - **Autentizace**: HTTP Basic Auth
 - **Výchozí interval aktualizace**: 30 minut
 - **Konfigurovatelný rozsah**: 15 minut - 1440 minut (24 hodin)
@@ -84,6 +112,11 @@ Můžete si přizpůsobit, jak často integrace stahuje data:
 - Zkontrolujte, zda zařízení odesílá data do VISIONQ.CZ
 - Zkontrolujte protokoly (logy) Home Assistant pro podrobnější chybové zprávy
 
+### Hlášení chyb s diagnostikou
+- V Nastavení → Zařízení a služby → ElioT otevřete nabídku (tři tečky) a zvolte **Stáhnout diagnostiku**
+- Soubor obsahuje surovou odpověď API; jméno, heslo, EUI a poloha jsou anonymizované
+- Přiložte ho k hlášení chyby
+
 ## Podpora
 
 Chyby nahlaste na: [GitHub Issues](https://github.com/DavidLouda/eliot-hacs/issues)
@@ -100,17 +133,43 @@ Custom integration for ElioT energy monitoring devices from VISIONQ.CZ.
 - Support for multiple ElioT devices
 - Automatic data updates every 30 minutes (configurable from 15 minutes to 24 hours)
 - Energy sensors compatible with Home Assistant Energy Dashboard
+- Battery state and estimate, signal strength and subscription expiry
+- Re-authentication after a password change without removing the integration
+- Diagnostics download for easy bug reports
 
 ## Sensors
 
-Each device provides 4 sensors:
+| Sensor | Description |
+|---|---|
+| **High Rate (VT)** | High tariff energy consumption in kWh |
+| **Low Rate (NT)** | Low tariff energy consumption in kWh |
+| **Total** | Combined energy consumption (VT + NT) in kWh |
+| **Reading Time** | Time of the last device measurement |
+| **Battery State** | Battery state reported by the device (see [Battery](#battery)) |
+| **Battery estimate** | Estimated remaining battery (see [Battery](#battery)) |
+| **Messages sent** | Number of messages sent by the device *(diagnostic)* |
+| **Signal strength (RSRP / RSSI)** | NB-IoT (RSRP) or LoRaWAN (RSSI) signal strength in dBm *(diagnostic)* |
+| **Subscription expires** | Expiry date of the data service *(diagnostic)* |
+| **Consumed battery charge** | ElioT PRO with a coulomb counter only, in mAh *(diagnostic)* |
+| **Signal-to-noise ratio, Coverage enhancement level, Transmit power** | Radio link details *(diagnostic, disabled by default)* |
 
-1. **High Rate (VT)** - High tariff energy consumption in kWh
-2. **Low Rate (NT)** - Low tariff energy consumption in kWh
-3. **Total** - Combined energy consumption (VT + NT) in kWh
-4. **Last Activity** - Timestamp of last device activity
+Sensors are only created when the API provides them for the device (e.g. RSSI for LoRaWAN only, coulomb counter for PRO only).
 
 All energy sensors use `state_class: total_increasing` for proper Energy Dashboard integration.
+
+### Battery
+
+The VISIONQ.CZ API reports the battery as a number 0–255 (`battery_state`):
+
+- **1–254** is converted to 0–100 % (254 = 100 %),
+- **0** (external power / not measured) and **255** (unknown) are shown as *unknown*.
+
+**ElioT CLASSIC has no battery measurement circuit**, so it reports 254 (100 %) for practically the whole battery life. The percentage on the VISIONQ.CZ portal is an estimate that the API does not provide. That is why the integration offers a **Battery estimate** sensor:
+
+- **Devices with a coulomb counter (ElioT PRO):** `100 % − consumed charge / battery capacity` (default capacity 2600 mAh),
+- **other devices:** `100 % − messages sent / battery life` (default battery life of 80,000 messages matches the portal estimate).
+
+If the estimate differs from the portal, adjust **Battery life (number of messages)** or **Battery capacity** in the integration options.
 
 ## Installation
 
@@ -139,21 +198,23 @@ All energy sensors use `state_class: total_increasing` for proper Energy Dashboa
 
 To add additional devices, repeat the process.
 
-### Changing Update Interval
-
-You can customize how often the integration fetches data:
+### Options
 
 1. Go to Settings → Devices & Services
 2. Find the ElioT integration
 3. Click "Configure"
-4. Set the desired update interval (in minutes)
-   - **Minimum**: 15 minutes
-   - **Default**: 30 minutes
-   - **Maximum**: 1440 minutes (24 hours)
+4. Adjust:
+   - **Update interval (minutes)**: minimum 15, default 30, maximum 1440 (24 hours)
+   - **Battery life (number of messages)**: for the battery estimate on devices without a coulomb counter (default 80,000)
+   - **Battery capacity (mAh)**: for the battery estimate on devices with a coulomb counter (default 2600)
+
+### Password Change
+
+If you change your VISIONQ.CZ password, Home Assistant asks you to re-authenticate. Just enter the new credentials; there is no need to remove the integration.
 
 ## API Details
 
-- **Endpoint**: https://app.visionq.cz/api/device_last_measurement.php
+- **Endpoints**: https://app.visionq.cz/api/device_last_measurement.php (measurement), https://app.visionq.cz/api/account_devices.php (device list, signal, subscription)
 - **Authentication**: HTTP Basic Auth
 - **Default Update Interval**: 30 minutes
 - **Configurable Range**: 15 minutes - 1440 minutes (24 hours)
@@ -170,6 +231,11 @@ You can customize how often the integration fetches data:
 - Wait up to 30 minutes for the first data fetch (or your configured interval)
 - Check the device is reporting data to VISIONQ.CZ
 - Review Home Assistant logs for detailed error messages
+
+### Reporting Bugs with Diagnostics
+- In Settings → Devices & Services → ElioT open the menu (three dots) and choose **Download diagnostics**
+- The file contains the raw API response; username, password, EUI and location are redacted
+- Attach it to your bug report
 
 ## Support
 

@@ -15,6 +15,14 @@
         "data": {
           "eui": "Urządzenie"
         }
+      },
+      "reauth_confirm": {
+        "title": "Ponowne logowanie do VISIONQ.CZ",
+        "description": "Dane logowania dla urządzenia {eui} nie są już ważne. Wprowadź aktualne dane logowania do VISIONQ.CZ.",
+        "data": {
+          "username": "Nazwa użytkownika",
+          "password": "Hasło"
+        }
       }
     },
     "error": {
@@ -22,45 +30,77 @@
       "invalid_auth": "Nieprawidłowa nazwa użytkownika lub hasło",
       "invalid_response": "API zwróciło nieoczekiwany format odpowiedzi",
       "no_devices_found": "Nie znaleziono żadnych urządzeń na tym koncie",
-      "unknown": "Wystąpił nieoczekiwany błąd"
+      "unknown": "Wystąpił nieoczekiwany błąd",
+      "device_not_found": "To konto nie zawiera skonfigurowanego urządzenia"
     },
     "abort": {
-      "already_configured": "To urządzenie jest już skonfigurowane"
+      "already_configured": "To urządzenie jest już skonfigurowane",
+      "no_devices_found": "Nie znaleziono żadnych urządzeń na tym koncie",
+      "reauth_successful": "Ponowne logowanie zakończyło się sukcesem"
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Opcje ElioT",
-        "description": "Konfiguracja interwału aktualizacji danych",
+        "description": "Interwał aktualizacji i parametry szacowania baterii",
         "data": {
-          "scan_interval": "Interwał aktualizacji (minuty)"
+          "scan_interval": "Interwał aktualizacji (minuty)",
+          "battery_message_budget": "Żywotność baterii (liczba wiadomości)",
+          "battery_capacity_mah": "Pojemność baterii (mAh)"
         },
         "data_description": {
-          "scan_interval": "Jak często pobierać dane z API (15-1440 minut, domyślnie: 30)"
+          "scan_interval": "Jak często pobierać dane z API (15-1440 minut, domyślnie: 30)",
+          "battery_message_budget": "Do szacowania baterii w urządzeniach bez licznika ładunku (ElioT CLASSIC): pozostało = 100 % − wysłane wiadomości / ta wartość. Domyślne 80000 odpowiada portalowi VISIONQ.CZ.",
+          "battery_capacity_mah": "Do szacowania baterii w urządzeniach z licznikiem ładunku (ElioT PRO). Domyślnie 2600 mAh (Saft LS 14500)."
         }
       }
     }
   },
-      "entity": {
-        "sensor": {
-          "high_rate": {
-            "name": "Wysoka taryfa (VT)"
-          },
-          "low_rate": {
-            "name": "Niska taryfa (NT)"
-          },
-          "total": {
-            "name": "Razem"
-          },
-                "last_activity": {
-                  "name": "Czas odczytu"
-                },
-          
-          "battery_state": {
-            "name": "Stan baterii"
-          }
-        }
+  "entity": {
+    "sensor": {
+      "high_rate": {
+        "name": "Wysoka taryfa (VT)"
+      },
+      "low_rate": {
+        "name": "Niska taryfa (NT)"
+      },
+      "total": {
+        "name": "Razem"
+      },
+      "last_activity": {
+        "name": "Czas odczytu"
+      },
+      "battery_state": {
+        "name": "Stan baterii"
+      },
+      "battery_estimate": {
+        "name": "Szacowany stan baterii"
+      },
+      "consumed_charge": {
+        "name": "Zużyty ładunek baterii"
+      },
+      "messages_sent": {
+        "name": "Wysłane wiadomości"
+      },
+      "signal_rsrp": {
+        "name": "Siła sygnału (RSRP)"
+      },
+      "signal_rssi": {
+        "name": "Siła sygnału (RSSI)"
+      },
+      "signal_snr": {
+        "name": "Stosunek sygnału do szumu"
+      },
+      "coverage_level": {
+        "name": "Poziom zasięgu (ECL)"
+      },
+      "tx_power": {
+        "name": "Moc nadawania"
+      },
+      "subscription_expires": {
+        "name": "Wygaśnięcie subskrypcji"
       }
     }
-    
+  }
+}
