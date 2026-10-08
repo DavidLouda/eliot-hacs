@@ -1,0 +1,20 @@
+{
+  "high_rate_kwh": 10675.62,
+  "low_rate_kwh": 15348.966,
+  "fcnt": 7223,
+  "timestamp": 1791460586,
+  "crc": 5138,
+  "battery_state": 254,
+  "snr": 248,
+  "rsrp": -805,
+  "ecl": 0,
+  "tx_power": 80,
+  "tx_time": 58598,
+  "rx_time": 45434,
+  "network": "NB IOT",
+  "network_id": 4,
+  "values": [
+    {"metric": 1, "sub_metric": 0, "value": 10675.62},
+    {"metric": 2, "sub_metric": 0, "value": 15348.966}
+  ]
+}

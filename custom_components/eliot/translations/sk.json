@@ -15,6 +15,14 @@
         "data": {
           "eui": "Zariadenie"
         }
+      },
+      "reauth_confirm": {
+        "title": "Znova sa prihlásiť k VISIONQ.CZ",
+        "description": "Prihlasovacie údaje pre zariadenie {eui} už nie sú platné. Zadajte aktuálne prihlasovacie údaje k VISIONQ.CZ.",
+        "data": {
+          "username": "Používateľské meno",
+          "password": "Heslo"
+        }
       }
     },
     "error": {
@@ -22,45 +30,77 @@
       "invalid_auth": "Neplatné používateľské meno alebo heslo",
       "invalid_response": "API vrátilo neočakávaný formát odpovede",
       "no_devices_found": "Na účte neboli nájdené žiadne zariadenia",
-      "unknown": "Došlo k neočakávanej chybe"
+      "unknown": "Došlo k neočakávanej chybe",
+      "device_not_found": "Na tomto účte nie je nakonfigurované zariadenie"
     },
     "abort": {
-      "already_configured": "Toto zariadenie je už nakonfigurované"
+      "already_configured": "Toto zariadenie je už nakonfigurované",
+      "no_devices_found": "Na účte neboli nájdené žiadne zariadenia",
+      "reauth_successful": "Opätovné prihlásenie prebehlo úspešne"
     }
   },
   "options": {
     "step": {
       "init": {
         "title": "Nastavenia ElioT",
-        "description": "Konfigurácia intervalu aktualizácie dát",
+        "description": "Interval aktualizácie a parametre odhadu batérie",
         "data": {
-          "scan_interval": "Interval aktualizácie (minúty)"
+          "scan_interval": "Interval aktualizácie (minúty)",
+          "battery_message_budget": "Výdrž batérie (počet správ)",
+          "battery_capacity_mah": "Kapacita batérie (mAh)"
         },
         "data_description": {
-          "scan_interval": "Ako často sťahovať dáta z API (15-1440 minút, predvolené: 30)"
+          "scan_interval": "Ako často sťahovať dáta z API (15-1440 minút, predvolené: 30)",
+          "battery_message_budget": "Pre odhad batérie pri zariadeniach bez počítadla náboja (ElioT CLASSIC): zostáva = 100 % − odoslané správy / táto hodnota. Predvolená hodnota 80000 zodpovedá portálu VISIONQ.CZ.",
+          "battery_capacity_mah": "Pre odhad batérie pri zariadeniach s počítadlom náboja (ElioT PRO). Predvolene 2600 mAh (Saft LS 14500)."
         }
       }
     }
   },
-      "entity": {
-        "sensor": {
-          "high_rate": {
-            "name": "Vysoká tarifa (VT)"
-          },
-          "low_rate": {
-            "name": "Nízka tarifa (NT)"
-          },
-          "total": {
-            "name": "Celkom"
-          },
-                "last_activity": {
-                  "name": "Čas odpočtu"
-                },
-          
-          "battery_state": {
-            "name": "Stav batérie"
-          }
-        }
+  "entity": {
+    "sensor": {
+      "high_rate": {
+        "name": "Vysoká tarifa (VT)"
+      },
+      "low_rate": {
+        "name": "Nízka tarifa (NT)"
+      },
+      "total": {
+        "name": "Celkom"
+      },
+      "last_activity": {
+        "name": "Čas odpočtu"
+      },
+      "battery_state": {
+        "name": "Stav batérie"
+      },
+      "battery_estimate": {
+        "name": "Odhad batérie"
+      },
+      "consumed_charge": {
+        "name": "Spotrebovaný náboj batérie"
+      },
+      "messages_sent": {
+        "name": "Odoslané správy"
+      },
+      "signal_rsrp": {
+        "name": "Sila signálu (RSRP)"
+      },
+      "signal_rssi": {
+        "name": "Sila signálu (RSSI)"
+      },
+      "signal_snr": {
+        "name": "Odstup signálu od šumu"
+      },
+      "coverage_level": {
+        "name": "Úroveň pokrytia (ECL)"
+      },
+      "tx_power": {
+        "name": "Vysielací výkon"
+      },
+      "subscription_expires": {
+        "name": "Koniec predplatného"
       }
     }
-    
+  }
+}
